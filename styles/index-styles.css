@@ -276,7 +276,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
       background: rgba(88,101,242,0.08);
     }
     .mobile-nav-overlay .nav-cta:hover {
@@ -291,7 +291,7 @@
       text-align: center;
       width: 100%;
       padding: 0.65rem 1rem;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
       background: rgba(38,130,69,0.12);
       border-color: rgba(38,130,69,0.35);
     }
