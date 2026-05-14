@@ -57,10 +57,6 @@
   font-weight: 800;
 }
 
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -69,8 +65,12 @@
       --green-dim: #1a5c30;
       --blurple: #5865F2;
       --blurple-bright: #7983f5;
+      --yellow: #f5c842;
+      --yellow-dim: #a17c2a;
+      --red: #f57b5e;
+      --red-dim: #a14c3b;
       --bg: #0a0c0f;
-      --bg2: #0f1215;
+      --bg2: #0c0f11;
       --bg3: #141820;
       --surface: #181c24;
       --surface2: #1e2430;
@@ -475,6 +475,10 @@
 
     .doc-table thead {
       background: var(--bg3);
+    }
+
+    .doc-table tbody {
+      background: var(--bg2);
     }
 
     .doc-table th {

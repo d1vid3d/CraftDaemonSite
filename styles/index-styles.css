@@ -57,10 +57,6 @@
   font-weight: 800;
 }
 
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -69,8 +65,12 @@
       --green-dim: #1a5c30;
       --blurple: #5865F2;
       --blurple-bright: #7983f5;
+      --yellow: #f5c842;
+      --yellow-dim: #a17c2a;
+      --red: #f57b5e;
+      --red-dim: #a14c3b;
       --bg: #0a0c0f;
-      --bg2: #0f1215;
+      --bg2: #0c0f11;
       --bg3: #141820;
       --surface: #181c24;
       --surface2: #1e2430;
@@ -568,9 +568,10 @@
       border-radius: 4px;
       align-self: flex-start;
     }
-    .tag-green   { background: rgba(38,130,69,0.15); color: var(--green-bright); }
-    .tag-blurple { background: rgba(88,101,242,0.15); color: var(--blurple-bright); }
-    .tag-yellow  { background: rgba(245,200,66,0.1); color: #f5c842; }
+    .tag-green   { background: rgba(38,130,69,0.15); color: var(--green-bright); border: 0.5px solid rgba(38,130,69,0.35); }
+    .tag-blurple { background: rgba(88,101,242,0.15); color: var(--blurple-bright); border: 0.5px solid rgba(88,101,242,0.35); }
+    .tag-yellow  { background: rgba(245,200,66,0.1); color: var(--yellow); border: 0.5px solid rgba(245, 201, 70, 0.35); }
+    .tag-red     { background: rgba(245,123,94,0.1); color: var(--red); border: 0.5px solid rgba(245,123,94,0.35); }
 
     .carousel-controls {
       display: flex;
@@ -922,6 +923,7 @@
     .commands-section { padding: 2rem 2rem 6rem; max-width: 860px; margin: 0 auto; }
     .cmd-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:0.875rem; }
     .cmd-table thead { background: var(--bg3); }
+    .cmd-table tbody { background: var(--bg2); }
     .cmd-table th { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dimmer); padding:0.75rem 1.25rem; text-align:left; border-bottom:1px solid var(--border); }
     .cmd-table td { padding:0.9rem 1.25rem; border-bottom:1px solid var(--border); color:var(--text-dim); line-height:1.5; }
     .cmd-table tr:last-child td { border-bottom:none; }

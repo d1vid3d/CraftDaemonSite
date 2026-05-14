@@ -375,7 +375,7 @@
         if (!res.ok) throw new Error(`${res.status}`);
         const releases = await res.json();
 
-        // Filter out the latest release, show up to 3 older ones
+        // Filter out the latest release, show up to N amount of older ones including a "View All" card
         const older = releases.slice(1, 4);
 
         const grid = document.getElementById('prev-releases-grid');

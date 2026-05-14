@@ -1,0 +1,14 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: transparent; /* Custom background color */
+  color: #ebebeb;          /* Custom text color */
+
+  /* Glow effect */
+  text-shadow: 0 0 12.5px #87e68f;
+
+}
+
+:hover::selection { background: rgba(255, 255, 255, 0.096); } /* Selection while hovering */
