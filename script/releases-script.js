@@ -1,16 +1,19 @@
 // ── HAMBURGER MENU ──
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav-overlay');
+    const mobileBackdrop = document.getElementById('mobile-nav-backdrop');
     
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       mobileNav.classList.toggle('active');
+      mobileBackdrop.classList.toggle('active');
     });
     
     document.querySelectorAll('#mobile-nav-overlay a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
       });
     });
     
@@ -18,6 +21,7 @@
       if (window.innerWidth > 768) {
         hamburger.classList.remove('active');
         mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
       }
     });
 
