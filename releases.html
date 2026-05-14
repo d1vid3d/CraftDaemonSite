@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CraftDaemon - All Releases</title>
+  <link rel="icon" type="image/png" href="logo/favicon.png" />
+  <link rel="preload" href="./fonts/space-mono-v17-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="./fonts/space-mono-v17-latin-700.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="./fonts/syne-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="./fonts/syne-v24-latin-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="./fonts/syne-v24-latin-700.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="./styles/releases-styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="./index.html">
+      <img class="nav-logo-img" src="logo/logo-dark.svg" alt="CraftDaemon" />
+    </a>
+    <button class="hamburger-btn" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="./index.html#features">Features</a></li>
+      <li><a href="./index.html#showcase">Showcase</a></li>
+      <li><a href="./index.html#commands">Commands</a></li>
+      <li><a href="./index.html#setup">Setup</a></li>
+      <li><a href="./documentation.html">Docs</a></li>
+      <li><a id="release-badge" class="nav-release-badge" href="./releases.html">
+        <span class="release-dot"></span>
+        <span id="release-badge-text" class="loading-text">Current Release: v.X.Y.Z</span>
+      </a></li>
+      <li><a href="https://github.com/d1vid3d/CraftDaemon" class="nav-cta">GitHub →</a></li>
+    </ul>
+  </nav>
+  
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <a href="./index.html#features">Features</a>
+    <a href="./index.html#showcase">Showcase</a>
+    <a href="./index.html#commands">Commands</a>
+    <a href="./index.html#setup">Setup</a>
+    <a href="./documentation.html">Docs</a>
+    <a id="release-badge-mobile" class="nav-release-badge" href="./releases.html">
+      <span class="release-dot"></span>
+      <span class="loading-text">Current Release: v.X.Y.Z</span>
+    </a>
+    <a href="https://github.com/d1vid3d/CraftDaemon" class="nav-cta">GitHub →</a>
+  </div>
+
+  <!-- RELEASES CONTENT -->
+  <section class="releases-section">
+    <a href="./index.html" class="btn-back">← Back to Home</a>
+
+    <div class="section-header reveal">
+      <p class="section-label">Release history</p>
+      <h2>All Releases</h2>
+      <p>Every version of CraftDaemon, with full changelogs.</p>
+    </div>
+
+    <div class="releases-loading" id="releases-loading">
+      <div class="spinner"></div>
+      <span>Loading releases…</span>
+    </div>
+
+    <div class="releases-list" id="releases-list"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <img class="footer-logo-img" src="logo/logo-dark.svg" alt="CraftDaemon" />
+    <p>A self-hosted Discord bot for Minecraft server control &nbsp;·&nbsp; MIT License</p>
+    <div class="footer-links">
+      <a href="https://github.com/d1vid3d/CraftDaemon">GitHub</a>
+      <a href="https://github.com/d1vid3d/CraftDaemon/releases">Releases</a>
+      <a href="https://github.com/d1vid3d/CraftDaemon/issues">Issues</a>
+      <a href="https://github.com/d1vid3d/CraftDaemon/blob/main/LICENSE">License</a>
+    </div>
+  </footer>
+
+  <script src="./script/releases-script.js"></script>
+</body>
+</html>
