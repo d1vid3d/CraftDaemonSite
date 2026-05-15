@@ -461,6 +461,19 @@
       margin: 1rem 0;
       white-space: pre;
     }
+    .code-block::-webkit-scrollbar {
+      height: 6px;
+    }
+    .code-block::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .code-block::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    .code-block::-webkit-scrollbar-thumb:hover {
+      background: var(--text-dimmer);
+    }
 
     .code-inline {
       font-family: var(--mono);

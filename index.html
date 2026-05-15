@@ -151,7 +151,7 @@
           <div class="feature-card">
             <span class="feature-icon">📜</span>
             <h3>Live Log Streaming</h3>
-            <p>Stream your Minecraft server logs directly in Discord with <span class="ic ic-b">/logs</span>. Two modes: <span class="ic ic-g">live</span> for real-time updates and <span class="ic ic-g">tail</span> for a static snapshot. One session per channel, auto-timeout after 60s.</p>
+            <p>Stream your Minecraft server logs directly in Discord with <span class="ic ic-b">/logs</span>. Three subcommands: <span class="ic ic-g">live</span> for real-time updates, <span class="ic ic-g">tail</span> for a static snapshot, and <span class="ic ic-g">stop</span> to end a session early. One session per channel, configurable timeout.</p>
             <span class="feature-tag tag-yellow">journalctl</span>
           </div>
         </div>
@@ -282,7 +282,7 @@
         <div class="showcase-caption">
           <span class="showcase-label">📜 /logs</span>
           <h4>Live Log Streaming</h4>
-          <p>Stream Minecraft server logs in real-time with <span class="ic ic-g">live</span> mode or grab a static snapshot with <span class="ic ic-g">tail</span> mode. One session per channel, sourced from journalctl by default. (Image got cut off of course)</p>
+          <p>Stream Minecraft server logs in real-time with <span class="ic ic-g">live</span> mode, grab a static snapshot with <span class="ic ic-g">tail</span> mode, or stop an active session with <span class="ic ic-g">stop</span>. One session per channel, sourced from journalctl by default. (Image got cut off of course)</p>
         </div>
       </div>
 
@@ -306,11 +306,12 @@
         <tr><td class="cmd-name">/start</td><td>Starts the Minecraft server via <span class="ic ic-g">systemctl start</span></td></tr>
         <tr><td class="cmd-name">/stop</td><td>Gracefully stops the server, running <span class="ic ic-g">save-all</span> first</td></tr>
         <tr><td class="cmd-name">/restart</td><td>Saves world data then restarts via <span class="ic ic-g">systemctl restart</span></td></tr>
-        <tr><td class="cmd-name">/logs</td><td>Streams live server logs in real-time (<span class="ic ic-g">live</span>) or fetches recent lines (<span class="ic ic-g">tail</span>) via journalctl</td></tr>
+        <tr><td class="cmd-name">/logs</td><td>Streams live server logs in real-time (<span class="ic ic-g">live</span>), fetches recent lines (<span class="ic ic-g">tail</span>), or stops an active session (<span class="ic ic-g">stop</span>) via journalctl</td></tr>
         <tr><td class="cmd-name">/exec</td><td>Executes Minecraft server commands via RCON with safety checks, confirmation prompts, and in-game announcements</td></tr>
         <tr><td class="cmd-name">/status</td><td>Full status embed: systemd state, uptime, live TPS, player list, RCON ping</td></tr>
         <tr><td class="cmd-name">/address</td><td>Shows server connection addresses, public, LAN, and Java edition version</td></tr>
         <tr><td class="cmd-name">/ping</td><td>Checks the bot's Discord API latency</td></tr>
+        <tr><td class="cmd-name">/help</td><td>Interactive command reference with category grouping, quick-start guide, and per-command detail pages with autocomplete</td></tr>
         <tr><td class="cmd-name">/checkupdate</td><td>Compares current version against latest GitHub release and posts an embed if newer</td></tr>
       </tbody>
     </table>
@@ -446,7 +447,7 @@
   <!-- FOOTER -->
   <footer>
     <img class="footer-logo-img" src="logo/logo-dark.svg" alt="CraftDaemon" />
-    <p>Self-hosted Discord bot for Minecraft server control &nbsp;·&nbsp; CraftDaemon is licensed under the MIT License.&nbsp;·&nbsp; <span>©</span> 2026 David Nizovtsev</p>
+    <p>Self-hosted Discord bot for Minecraft server control &nbsp;·&nbsp; CraftDaemon is licensed under the MIT License&nbsp;·&nbsp; <span>©</span> 2026 David Nizovtsev</p>
     <div class="footer-links">
       <a href="https://github.com/d1vid3d/CraftDaemon">GitHub</a>
       <a href="https://github.com/d1vid3d/CraftDaemon/releases">Releases</a>

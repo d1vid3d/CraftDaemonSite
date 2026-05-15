@@ -340,6 +340,12 @@
               <td>Default: <span class="code-inline">./logs/latest.log</span></td>
             </tr>
             <tr>
+              <td><span class="code-inline">LOG_SESSION_TIMEOUT_MS</span></td>
+              <td>☑️</td>
+              <td>Auto-stop timeout for <span class="code-inline">/logs live</span> sessions in milliseconds</td>
+              <td><span class="code-inline">0</span> (no timeout) or <span class="code-inline">30000-300000</span> (default: <span class="code-inline">60000</span>)</td>
+            </tr>
+            <tr>
               <td><span class="code-inline">EXEC_TELLRAW_ENABLED</span></td>
               <td>☑️</td>
               <td>Enable in-game announcements for <span class="code-inline">/exec</span> commands</td>
@@ -599,6 +605,11 @@
               <td>ADMIN, MOD</td>
             </tr>
             <tr>
+              <td><span class="code-inline">/help</span></td>
+              <td><em>(none)</em></td>
+              <td>Everyone</td>
+            </tr>
+            <tr>
               <td><span class="code-inline">/ping</span></td>
               <td><em>(none)</em></td>
               <td>Everyone</td>
@@ -730,45 +741,69 @@
           <li><strong>If newer:</strong> Displays the full changelog from the release notes</li>
         </ul>
 
+        <h2 class="section-subtitle">/help</h2>
+        <p class="section-desc">A comprehensive help system with two modes: an interactive command reference and per-command deep dives with autocomplete.</p>
+
+        <h3 class="section-subsubtitle">/help (no options)</h3>
+        <p class="section-desc">Shows an ephemeral embed with a <strong>StringSelectMenu</strong> to switch between two pages:</p>
+        <ul>
+          <li><strong>Commands Reference</strong> — all commands grouped by category (Server Control, Admin & Tools, Information) with permission lock indicators</li>
+          <li><strong>Quick Start Guide</strong> — step-by-step getting-started guide (start → status → address → logs → exec → stop/restart)</li>
+        </ul>
+        <p class="section-desc">The select menu expires after <strong>2 minutes</strong> of inactivity and auto-disables.</p>
+
+        <h3 class="section-subsubtitle">/help command:&lt;name&gt;</h3>
+        <p class="section-desc">Shows detailed information for a specific command including description, exact usage syntax, in-depth behavior notes, examples, the required permission string, and important caveats. Supports <strong>autocomplete</strong> — start typing a command name and suggestions appear.</p>
+        <ul>
+          <li><strong>Permission:</strong> No restriction — all Discord members can use this</li>
+          <li><strong>Response:</strong> Ephemeral embed with full command details</li>
+          <li><strong>Notes:</strong> Ideal for discovering commands or checking syntax without leaving Discord</li>
+        </ul>
+
         <h2 class="section-subtitle">/logs</h2>
         <p class="section-desc">Streams live Minecraft server logs directly in Discord, or fetches recent lines as a static snapshot. Logs are sourced from <span class="code-inline">journalctl</span> by default, with a <span class="code-inline">file</span> fallback for non-systemd setups.</p>
 
         <h3 class="section-subsubtitle">Command Syntax</h3>
-        <div class="code-block">/logs [mode:live|tail] [lines:number]</div>
+        <div class="code-block">/logs live<br>/logs tail [lines:number]<br>/logs stop</div>
 
-        <h3 class="section-subsubtitle">Modes</h3>
+        <h3 class="section-subsubtitle">Subcommands</h3>
         <div class="doc-table-wrap">
         <table class="doc-table">
           <thead>
             <tr>
-              <th>Mode</th>
+              <th>Subcommand</th>
               <th>Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><span class="code-inline">live</span></td>
-              <td>Default. Opens a live-updating message that streams log lines in real time. A <code>journalctl -f</code> or <code>tail -f</code> child process is spawned and its output is collected via a rotating buffer. The message is edited every 2 seconds with new content. The session auto-stops after 60 seconds and the child process is killed.</td>
+              <td>Default. Opens a live-updating message that streams log lines in real time. A <code>journalctl -f</code> or <code>tail -f</code> child process is spawned and its output is collected via a rotating buffer. The message is edited every 2 seconds with new content. The session auto-stops after the configured timeout and the child process is killed.</td>
             </tr>
             <tr>
-              <td><span class="code-inline">tail </span></td>
+              <td><span class="code-inline">tail</span></td>
               <td>One-shot fetch of the last N lines (default 15, adjustable via the <span class="code-inline">lines</span> option). Returns a static code block embed immediately. No live session or timeout involved.</td>
+            </tr>
+            <tr>
+              <td><span class="code-inline">stop</span></td>
+              <td>Stops the active live log session in the current channel. Shows a warning if no session is running. On success, the child process is killed, the edit interval is cleared, and the Discord message is marked <code>--- [Stopped by user.] ---</code>.</td>
             </tr>
           </tbody>
         </table>
         </div>
 
         <h3 class="section-subsubtitle">Code Examples</h3>
-        <div class="code-block">/logs                        → live mode (default)<br>/logs mode:live              → explicitly live<br>/logs mode:tail              → last 15 lines as a static embed<br>/logs mode:tail lines:50     → last 50 lines</div>
+        <div class="code-block">/logs                        → live subcommand (default)<br>/logs live                  → explicitly live<br>/logs tail                  → last 15 lines as a static embed<br>/logs tail lines:50         → last 50 lines<br>/logs stop                  → stops active live session</div>
 
         <h3 class="section-subsubtitle">Live Session Behavior</h3>
         <ul>
-          <li><strong>Rotating buffer:</strong> Only the 15 most recent lines are kept and displayed</li>
+          <li><strong>Rotating buffer:</strong> Only the 25 most recent lines are kept and displayed</li>
           <li><strong>Edit cadence:</strong> The Discord message is updated every 2 seconds (debounced — skipped if no new lines since last edit), well under Discord's 5-edits-per-5-seconds rate limit</li>
           <li><strong>One session per channel:</strong> If a user already has a live session running in a channel, other users in that channel see a warning instead of starting a second session</li>
-          <li><strong>Auto-timeout:</strong> Sessions expire after 60 seconds. On timeout, the child process is killed, the edit interval is cleared, the session is deleted, and the message is updated with a <code>[session ended]</code> notice</li>
+          <li><strong>Auto-timeout:</strong> Sessions expire after the configured <span class="code-inline">LOG_SESSION_TIMEOUT_MS</span> (default 60s). Set to <span class="code-inline">0</span> for no timeout. On timeout, the child process is killed, the edit interval is cleared, the session is deleted, and the message is updated with a <code>[session ended]</code> notice</li>
           <li><strong>Permission:</strong> <span class="code-inline">admin.logs</span></li>
           <li><strong>Log source:</strong> Controlled by <span class="code-inline">LOGS_SOURCE</span> in <span class="code-inline">config/.env</span> (<span class="code-inline">journalctl</span> or <span class="code-inline">file</span>)</li>
+          <li><strong>Stop command:</strong> Use <span class="code-inline">/logs stop</span> to end a live session early instead of waiting for the timeout</li>
         </ul>
 
         <h3 class="section-subsubtitle">Under the Hood</h3>
@@ -928,6 +963,10 @@
               <td><span class="code-inline">admin.exec</span></td>
               <td>/exec command</td>
             </tr>
+            <tr>
+              <td><span class="code-inline">—</span></td>
+              <td>/help, /ping (public — no permission required)</td>
+            </tr>
           </tbody>
         </table>
         </div>
@@ -1003,14 +1042,14 @@
 
         <h2 class="section-subtitle">Live Logs (<span class="code-inline">/logs</span>)</h2>
         <p class="section-desc">
-          The <span class="code-inline">/logs</span> command streams Minecraft server logs directly into Discord, giving authorized users real-time visibility into server activity without needing SSH access. It supports two modes: <strong>live</strong> (real-time streaming) and <strong>tail</strong> (static snapshot).
+          The <span class="code-inline">/logs</span> command streams Minecraft server logs directly into Discord, giving authorized users real-time visibility into server activity without needing SSH access. It supports three subcommands: <strong>live</strong> (real-time streaming), <strong>tail</strong> (static snapshot), and <strong>stop</strong> (end active session).
         </p>
         <p class="section-desc"><strong>How live mode works:</strong></p>
         <ol>
           <li>The bot spawns a <span class="code-inline">journalctl -f</span> (or <span class="code-inline">tail -f</span>) child process</li>
-          <li>New log lines are collected via the stdout <span class="code-inline">data</span> event and pushed into a rotating 15-line buffer</li>
+          <li>New log lines are collected via the stdout <span class="code-inline">data</span> event and pushed into a rotating 25-line buffer</li>
           <li>Every 2 seconds, the bot checks if the buffer changed since the last edit — if so, it edits the Discord message with the latest lines</li>
-          <li>After 60 seconds, the session expires: the child process is killed, the edit interval is cleared, and the message is marked <code>[session ended]</code></li>
+          <li>After the configured <span class="code-inline">LOG_SESSION_TIMEOUT_MS</span> (default 60s), the session expires: the child process is killed, the edit interval is cleared, and the message is marked <code>[session ended]</code>. Use <span class="code-inline">/logs stop</span> to end a session early</li>
         </ol>
         <p class="section-desc"><strong>Configuration:</strong> Set <span class="code-inline">LOGS_SOURCE</span> in <span class="code-inline">config/.env</span> to <span class="code-inline">journalctl</span> (default) or <span class="code-inline">file</span>. If using file mode, set <span class="code-inline">LOG_FILE_PATH</span> to the path of your <span class="code-inline">latest.log</span>. The default <span class="code-inline">journalctl</span> source automatically uses your configured <span class="code-inline">MC_SERVICE</span>.</p>
         <p class="section-desc"><strong>Session guard:</strong> Only one active live session is allowed per channel at a time. This prevents conflicting edit loops from multiple users in the same channel.</p>
@@ -1331,7 +1370,7 @@
   <!-- FOOTER -->
   <footer>
     <img class="footer-logo-img" src="logo/logo-dark.svg" alt="CraftDaemon" />
-    <p>Self-hosted Discord bot for Minecraft server control &nbsp;·&nbsp; CraftDaemon is licensed under the MIT License.&nbsp;·&nbsp; <span>©</span> 2026 David Nizovtsev</p>
+    <p>Self-hosted Discord bot for Minecraft server control &nbsp;·&nbsp; CraftDaemon is licensed under the MIT License&nbsp;·&nbsp; <span>©</span> 2026 David Nizovtsev</p>
     <div class="footer-links">
       <a href="https://github.com/d1vid3d/CraftDaemon">GitHub</a>
       <a href="https://github.com/d1vid3d/CraftDaemon/releases">Releases</a>
