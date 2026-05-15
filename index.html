@@ -130,14 +130,7 @@
             <span class="feature-tag tag-yellow">systemctl</span>
           </div>
         </div>
-        <div class="carousel-slide">
-          <div class="feature-card">
-            <span class="feature-icon">🔌</span>
-            <h3>Persistent RCON Manager</h3>
-            <p>One RCON connection, kept alive and healthy. Handles reconnects and queues commands for you. Live TPS, player count, and latency.</p>
-            <span class="feature-tag tag-blurple">RCON</span>
-          </div>
-        </div>
+        
         <div class="carousel-slide">
           <div class="feature-card">
             <span class="feature-icon">🔐</span>
@@ -177,6 +170,14 @@
             <p>Bot status updates in real time, so your Discord always shows if the server is offline, starting, or online (with player count). All event-driven.</p>
             <span class="feature-tag tag-blurple">Discord</span>
           </div>
+        </div>
+        <div class="carousel-slide">
+          <div class="feature-card">
+            <span class="feature-icon">🔌</span>
+            <h3>Persistent RCON Manager</h3>
+            <p>One RCON connection, kept alive and healthy. Handles reconnects and queues commands for you. Live TPS, player count, and latency.</p>
+            <span class="feature-tag tag-blurple">RCON</span>
+          </div>  
         </div>
         <div class="carousel-slide">
           <div class="feature-card">
@@ -290,7 +291,55 @@
 
   <div class="section-divider"></div>
 
-  <!-- RELEASE / CHANGELOG -->
+  <!-- COMMANDS TABLE -->
+  <section class="commands-section" id="commands">
+    <div class="section-header reveal">
+      <p class="section-label">Slash commands</p>
+      <h2>Your Discord Control Panel</h2>
+      <p>Every interaction with the server happens through clean slash commands, no need to SSH.</p>
+    </div>
+    <table class="cmd-table reveal">
+      <thead>
+        <tr><th>Command</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="cmd-name">/start</td><td>Starts the Minecraft server via <span class="ic ic-g">systemctl start</span></td></tr>
+        <tr><td class="cmd-name">/stop</td><td>Gracefully stops the server, running <span class="ic ic-g">save-all</span> first</td></tr>
+        <tr><td class="cmd-name">/restart</td><td>Saves world data then restarts via <span class="ic ic-g">systemctl restart</span></td></tr>
+        <tr><td class="cmd-name">/logs</td><td>Streams live server logs in real-time (<span class="ic ic-g">live</span>) or fetches recent lines (<span class="ic ic-g">tail</span>) via journalctl</td></tr>
+        <tr><td class="cmd-name">/exec</td><td>Executes Minecraft server commands via RCON with safety checks, confirmation prompts, and in-game announcements</td></tr>
+        <tr><td class="cmd-name">/status</td><td>Full status embed: systemd state, uptime, live TPS, player list, RCON ping</td></tr>
+        <tr><td class="cmd-name">/address</td><td>Shows server connection addresses, public, LAN, and Java edition version</td></tr>
+        <tr><td class="cmd-name">/ping</td><td>Checks the bot's Discord API latency</td></tr>
+        <tr><td class="cmd-name">/checkupdate</td><td>Compares current version against latest GitHub release and posts an embed if newer</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto-section" id="manifesto">
+    <div class="section-header reveal">
+      <p class="section-label">Why CraftDaemon exists</p>
+      <h2>Because hosting a server for friends,<br>shouldn't feel like managing infrastructure.</h2>
+    </div>
+    <div class="manifesto-bubble reveal">
+      <p style="font-weight: bold;">CraftDaemon started from a simple problem:</p>
+      <p>I wanted a self-hosted Minecraft server that friends could control remotely without dealing with panels, tunnels, complicated deployments, or full hosting stacks.</p>
+      <p>So instead of building another massive control panel, CraftDaemon focuses on lightweight Discord-native management that works alongside the server you already run.</p>
+    </div>
+    <div class="manifesto-grid reveal">
+      <div class="manifesto-card"><span class="manifesto-icon">🪶</span><span>Lightweight by design</span></div>
+      <div class="manifesto-card"><span class="manifesto-icon">💜</span><span>Discord-native controls</span></div>
+      <div class="manifesto-card"><span class="manifesto-icon">🚀</span><span>Minimal setup friction</span></div>
+      <div class="manifesto-card"><span class="manifesto-icon">🏡</span><span>Self-host friendly</span></div>
+      <div class="manifesto-card"><span class="manifesto-icon">📦</span><span>Works alongside your server</span></div>
+      <div class="manifesto-card"><span class="manifesto-icon">⚡</span><span>Optional complexity</span></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+   <!-- RELEASE / CHANGELOG -->
   <section class="release-section" id="release">
     <div class="section-header reveal">
       <p class="section-label">Latest release</p>
@@ -324,64 +373,11 @@
       </div>
     </div>
   </section>
-
-  <div class="section-divider"></div>
-
-  <!-- PRESENCE STATES -->
-  <section style="padding:4rem 2rem 3rem; max-width:860px; margin:0 auto;" id="commands">
-    <div class="section-header reveal">
-      <p class="section-label">Live state</p>
-      <h2>Bot Presence States</h2>
-      <p>Event-driven from the RCON manager. Your Discord member list tells the story at a glance.</p>
-    </div>
-    <div class="presence-grid reveal">
-      <div class="presence-card">
-        <span class="presence-dot p-offline"></span>
-        <span class="state">🔴 Do Not Disturb</span>
-        <span class="activity">🟥 Server Offline</span>
-      </div>
-      <div class="presence-card">
-        <span class="presence-dot p-starting"></span>
-        <span class="state">🟡 Idle</span>
-        <span class="activity">🟡 Server Starting...</span>
-      </div>
-      <div class="presence-card">
-        <span class="presence-dot p-online"></span>
-        <span class="state">🟢 Online</span>
-        <span class="activity">🟩 N player(s) online</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMANDS TABLE -->
-  <section class="commands-section">
-    <div class="section-header reveal">
-      <p class="section-label">Slash commands</p>
-      <h2>Your Discord Control Panel</h2>
-      <p>Every interaction with the server happens through clean slash commands, no need to SSH.</p>
-    </div>
-    <table class="cmd-table reveal">
-      <thead>
-        <tr><th>Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="cmd-name">/start</td><td>Starts the Minecraft server via <span class="ic ic-g">systemctl start</span></td></tr>
-        <tr><td class="cmd-name">/stop</td><td>Gracefully stops the server, running <span class="ic ic-g">save-all</span> first</td></tr>
-        <tr><td class="cmd-name">/restart</td><td>Saves world data then restarts via <span class="ic ic-g">systemctl restart</span></td></tr>
-        <tr><td class="cmd-name">/logs</td><td>Streams live server logs in real-time (<span class="ic ic-g">live</span>) or fetches recent lines (<span class="ic ic-g">tail</span>) via journalctl</td></tr>
-        <tr><td class="cmd-name">/exec</td><td>Executes Minecraft server commands via RCON with safety checks, confirmation prompts, and in-game announcements</td></tr>
-        <tr><td class="cmd-name">/status</td><td>Full status embed: systemd state, uptime, live TPS, player list, RCON ping</td></tr>
-        <tr><td class="cmd-name">/address</td><td>Shows server connection addresses, public, LAN, and Java edition version</td></tr>
-        <tr><td class="cmd-name">/ping</td><td>Checks the bot's Discord API latency</td></tr>
-        <tr><td class="cmd-name">/checkupdate</td><td>Compares current version against latest GitHub release and posts an embed if newer</td></tr>
-      </tbody>
-    </table>
-  </section>
    
   <div class="section-divider"></div>
 
   <!-- REQUIREMENTS -->
-  <section class="setup-section">
+  <section class="setup-section" id="setup">
     <div class="section-header reveal">
       <p class="section-label">Before you dive in</p>
       <h2>Requirements</h2>
@@ -397,12 +393,10 @@
     </div>
   </section>
 
-
-
   <div class="section-divider"></div>
 
   <!-- SETUP -->
-  <section class="setup-section" id="setup">
+  <section class="setup-section">
     <div class="section-header reveal">
       <p class="section-label">Get started</p>
       <h2>Setup in 9 Steps</h2>

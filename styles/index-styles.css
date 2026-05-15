@@ -928,6 +928,7 @@
       padding: 0.5rem 0.8rem;
       border-bottom: 1px solid var(--border);
       color: var(--text-dim);
+      background-color: #1e232c;
     }
     .changelog-table tr:last-child td {
       border-bottom: none;
@@ -960,18 +961,44 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* PRESENCE */
-    .presence-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 2rem; }
-    .presence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
-    .presence-dot { width: 12px; height: 12px; border-radius: 50%; display: block; margin: 0 auto 0.75rem; }
-    .p-offline  { background: #ed4245; box-shadow: 0 0 8px rgba(237,66,69,0.5); }
-    .p-starting { background: #faa61a; box-shadow: 0 0 8px rgba(250,166,26,0.5); }
-    .p-online   { background: #3ba55c; box-shadow: 0 0 8px rgba(59,165,92,0.5); }
-    .presence-card .state    { font-family:var(--mono); font-size:0.7rem; color:var(--text-dim); display:block; text-align: left; }
-    .presence-card .activity { font-family:var(--mono); font-size:0.68rem; color:var(--text-dimmer); margin-top:0.4rem; display:block; text-align: left; }
+    /* MANIFESTO */
+    .manifesto-section { padding: 4rem 2rem 6rem; max-width: 860px; margin: 0 auto; }
+    .manifesto-bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0 12px 12px 12px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+    .manifesto-bubble::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 20px;
+      width: 12px;
+      height: 12px;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      transform: rotate(45deg);
+    }
+    .manifesto-bubble p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+      text-align: left;
+      margin-bottom: 0.5rem;
+    }
+    .manifesto-bubble p:last-child {
+      margin-bottom: 0;
+    }
+    .manifesto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; margin-top: 2rem; }
+    .manifesto-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.65rem; font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); }
+    .manifesto-icon { font-size: 1rem; flex-shrink: 0; }
 
     /* COMMANDS TABLE */
-    .commands-section { padding: 2rem 2rem 6rem; max-width: 860px; margin: 0 auto; }
+    .commands-section { padding: 4rem 2rem 6rem; max-width: 860px; margin: 0 auto; }
     .cmd-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:0.875rem; }
     .cmd-table thead { background: var(--bg3); }
     .cmd-table tbody { background: var(--bg2); }
@@ -1090,10 +1117,14 @@
       .section-header h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
       .carousel-slide { flex: 0 0 calc(100% / 2); }
       .showcase-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); padding-inline: 0.35rem; }
-      .presence-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; padding-inline: 0.35rem; }
+    }
+
+    @media (max-width: 768px) {
+      .manifesto-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 640px) {
+      .manifesto-grid { grid-template-columns: 1fr; }
       nav { padding: 0.5rem 0.75rem; }
       .nav-logo-img { height: 36px; }
       .hero {
@@ -1150,7 +1181,6 @@
       .showcase-caption h4 { font-size: 0.85rem; }
       .showcase-caption p { font-size: 0.75rem; }
       .diagram-box { margin: 0; }
-      .presence-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; padding-inline: 0.5rem; }
       .release-card-header { 
         flex-direction: row;
         align-items: flex-start;

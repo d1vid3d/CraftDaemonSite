@@ -53,7 +53,8 @@
 
         loadingEl.style.display = 'none';
 
-        releases.forEach(release => {
+        releases.forEach((release, index) => {
+          const isFirst = index === 0;
           const version = release.tag_name || 'Unknown';
           const url = release.html_url || `https://github.com/${REPO}/releases`;
           const date = release.published_at
@@ -73,6 +74,13 @@
             <span class="release-version-tag">${version}</span>
             <span class="release-date">${date}</span>
           `;
+
+          if (isFirst) {
+            const badge = document.createElement('span');
+            badge.className = 'release-latest-badge';
+            badge.innerHTML = '<span class="release-latest-dot"></span>Latest';
+            left.appendChild(badge);
+          }
 
           const right = document.createElement('div');
           right.className = 'release-card-header-right';
@@ -96,6 +104,13 @@
           card.appendChild(header);
           card.appendChild(bodyEl);
           listEl.appendChild(card);
+
+          if (isFirst) {
+            const separator = document.createElement('div');
+            separator.className = 'releases-separator';
+            separator.textContent = 'Previous Releases';
+            listEl.appendChild(separator);
+          }
         });
       } catch(err) {
         loadingEl.innerHTML = `<span>⚠ Could not load releases. <a href="https://github.com/${REPO}/releases" target="_blank" style="color:var(--blurple-bright)">View on GitHub ↗</a></span>`;

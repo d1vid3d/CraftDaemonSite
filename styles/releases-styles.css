@@ -524,6 +524,7 @@
       padding: 0.5rem 0.8rem;
       border-bottom: 1px solid var(--border);
       color: var(--text-dim);
+      background-color: #1e232c;
     }
     .changelog-table tr:last-child td { border-bottom: none; }
     .changelog-table code {
@@ -534,6 +535,49 @@
       color: var(--green-bright);
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
+    }
+
+    .release-latest-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(38,130,69,0.1);
+      border: 1px solid rgba(38,130,69,0.35);
+      color: var(--green-bright);
+      width: fit-content;
+      margin-top: 0.35rem;
+    }
+    .release-latest-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      box-shadow: 0 0 6px var(--green-bright);
+      animation: rpulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .releases-separator {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0 0.5rem;
+      color: var(--text-dimmer);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .releases-separator::before,
+    .releases-separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     .release-error {
