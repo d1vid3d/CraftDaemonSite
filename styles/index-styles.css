@@ -301,6 +301,16 @@
     .mobile-nav-overlay .nav-release-badge:hover {
       background: rgba(38,130,69,0.18);
     }
+    .mobile-nav-overlay .nav-footer-text {
+      display: block;
+      font-size: 0.65rem;
+      color: var(--text-dimmer);
+      text-align: center;
+      padding: 0.75rem 0.5rem 0.3rem;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      user-select: none;
+    }
 
     /* HERO */
     .hero {
@@ -1021,6 +1031,9 @@
       background: linear-gradient(to bottom, transparent, rgba(10,12,15,0.6));
       pointer-events: none;
     }
+
+    footer span { color: var(--text-dimmer); font-weight: 600; }
+
     .footer-logo-img { height: 30px; width: auto; margin: 0 auto 0.75rem; display: block; opacity: 0.75; }
     footer p { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dimmer); margin-bottom: 1.5rem; }
     .footer-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }

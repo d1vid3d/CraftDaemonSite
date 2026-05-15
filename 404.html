@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CraftDaemon - All Releases</title>
+  <title>CraftDaemon - Page Not Found</title>
   <link rel="icon" type="image/png" href="logo/favicon.png" />
   <link rel="preload" href="./fonts/space-mono-v17-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="./fonts/space-mono-v17-latin-700.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="./fonts/syne-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="./fonts/syne-v24-latin-600.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="./fonts/syne-v24-latin-700.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="./styles/releases-styles.css" />
-  <link rel="stylesheet" href="./styles/global.css" />
+  <link rel="stylesheet" href="./styles/404-styles.css" />
+  <link rel="stylesheet" href="./styles/global.css">
 </head>
 <body>
 
@@ -55,22 +55,17 @@
   
   <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
 
-  <!-- RELEASES CONTENT -->
-  <section class="releases-section">
-    <a href="./index.html" class="btn-back">← Back to Home</a>
-
-    <div class="section-header reveal">
-      <p class="section-label">Release history</p>
-      <h2>All Releases</h2>
-      <p>Every version of CraftDaemon, with full changelogs.</p>
+  <!-- 404 -->
+  <section class="error-section">
+    <div class="error-code">4<span>0</span>4</div>
+    <h1 class="error-heading">Chunk not found</h1>
+    <p class="error-desc">
+      The page you're looking for doesn't exist on this server. It might have been moved, deleted, or never generated in the first place.
+    </p>
+    <div class="error-actions">
+      <a href="./index.html" class="btn-primary">← Back to Home</a>
+      <a href="https://github.com/d1vid3d/CraftDaemon" class="btn-secondary">GitHub →</a>
     </div>
-
-    <div class="releases-loading" id="releases-loading">
-      <div class="spinner"></div>
-      <span>Loading releases…</span>
-    </div>
-
-    <div class="releases-list" id="releases-list"></div>
   </section>
 
   <!-- FOOTER -->
@@ -85,6 +80,59 @@
     </div>
   </footer>
 
-  <script src="./script/releases-script.js"></script>
+  <script>
+    // ── HAMBURGER MENU ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav-overlay');
+    const mobileBackdrop = document.getElementById('mobile-nav-backdrop');
+    
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      mobileBackdrop.classList.toggle('active');
+    });
+    
+    document.querySelectorAll('#mobile-nav-overlay a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+      });
+    });
+    
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        hamburger.classList.remove('active');
+        mobileNav.classList.remove('active');
+        mobileBackdrop.classList.remove('active');
+      }
+    });
+
+    // ── GITHUB RELEASE FETCH ──
+    async function fetchRelease() {
+      const REPO = 'd1vid3d/CraftDaemon';
+      try {
+        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+          headers: { Accept: 'application/vnd.github+json' }
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
+        const d = await res.json();
+        const version = d.tag_name || 'Unknown';
+        const url     = './releases.html';
+        const bt = document.getElementById('release-badge-text');
+        bt.textContent = `Current Release: ${version}`;
+        bt.classList.remove('loading-text');
+        document.getElementById('release-badge').href = url;
+        const btMobile = document.querySelector('#release-badge-mobile .loading-text');
+        if (btMobile) btMobile.textContent = `Current Release: ${version}`;
+      } catch(err) {
+        const bt = document.getElementById('release-badge-text');
+        bt.textContent = 'Current Release';
+        bt.classList.remove('loading-text');
+      }
+    }
+    fetchRelease();
+  </script>
+
 </body>
 </html>

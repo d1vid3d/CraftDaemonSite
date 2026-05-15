@@ -298,6 +298,16 @@
     .mobile-nav-overlay .nav-release-badge .loading-text {
       color: var(--green-bright);
     }
+    .mobile-nav-overlay .nav-footer-text {
+      display: block;
+      font-size: 0.65rem;
+      color: var(--text-dimmer);
+      text-align: center;
+      padding: 0.75rem 0.5rem 0.3rem;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      user-select: none;
+    }
 
     /* HERO */
     .release-dot {
@@ -604,6 +614,8 @@
       background: linear-gradient(to bottom, transparent, rgba(10,12,15,0.6));
       pointer-events: none;
     }
+
+    footer span { color: var(--text-dimmer); font-weight: 600; }
 
     .footer-logo-img {
       height: 30px;
