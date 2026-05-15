@@ -61,10 +61,14 @@
       let isHovering = false;
       let startX = 0;
       let dragStartOffset = 0;
-      let dragDelta = 0;
+      let dragDistance = 0;
       let lastTime = 0;
+      let velocity = 0;
+      let lastPointerX = 0;
+      let lastMoveTime = 0;
+      let momentumId = null;
+      const DRAG_THRESHOLD = 10;
 
-      // Clone once for seamless looping
       rawSlides.forEach(s => track.appendChild(s.cloneNode(true)));
 
       function getSlideWidth() {
@@ -72,7 +76,6 @@
         return first ? first.getBoundingClientRect().width : 0;
       }
 
-      // Exact pixel distance between slide 0 and its clone (accounts for sub-pixel)
       function getSetWidth() {
         const first = track.children[0];
         const clone = track.children[rawSlides.length];
@@ -93,7 +96,6 @@
       function getSpeed() {
         const sw = getSlideWidth();
         if (!sw) return 0;
-        // 5 seconds per slide width
         return sw / 5000;
       }
 
@@ -114,15 +116,10 @@
         rafId = requestAnimationFrame(tick);
       }
 
-      function snapToSlide() {
-        const sw = getSlideWidth();
-        if (!sw) return;
-        const idx = Math.round(offset / sw);
-        const maxIdx = getMaxIndex();
-        currentIndex = Math.min(idx, maxIdx);
-        offset = currentIndex * sw;
-        track.style.transform = `translateX(${-offset}px)`;
-        updateDots();
+      function wrapOffset() {
+        const setW = getSetWidth();
+        if (setW <= 0) return;
+        offset = ((offset % setW) + setW) % setW;
       }
 
       function updateCurrentIndex() {
@@ -162,46 +159,83 @@
         lastTime = 0;
       }
 
-      // Hover
       container.addEventListener('mouseenter', () => { isHovering = true; pauseAutoScroll(); });
       container.addEventListener('mouseleave', () => { isHovering = false; resumeAutoScroll(); });
 
-      // Drag
       track.addEventListener('pointerdown', (e) => {
         isDragging = true;
         startX = e.clientX;
-        dragDelta = 0;
+        lastPointerX = e.clientX;
+        lastMoveTime = performance.now();
+        velocity = 0;
+        dragDistance = 0;
         dragStartOffset = offset;
         pauseAutoScroll();
         track.setPointerCapture(e.pointerId);
+        if (momentumId) {
+          cancelAnimationFrame(momentumId);
+          momentumId = null;
+        }
       });
+
       track.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
         const dx = e.clientX - startX;
-        dragDelta = dx;
+        dragDistance = Math.abs(dx);
         offset = dragStartOffset - dx;
-        const setW = getSetWidth();
-        if (setW > 0) {
-          if (offset < 0) offset += setW;
-          if (offset >= setW) offset -= setW;
+        const now = performance.now();
+        const dt = now - lastMoveTime;
+        if (dt > 0) {
+          velocity = (lastPointerX - e.clientX) / dt;
         }
+        lastPointerX = e.clientX;
+        lastMoveTime = now;
         track.style.transform = `translateX(${-offset}px)`;
       });
+
       track.addEventListener('pointerup', () => {
         if (!isDragging) return;
         isDragging = false;
-        snapToSlide();
-        if (!isHovering) resumeAutoScroll();
-      });
-      track.addEventListener('pointercancel', () => {
-        isDragging = false;
-        resumeAutoScroll();
-      });
-      track.addEventListener('click', (e) => {
-        if (Math.abs(dragDelta) > 10) e.preventDefault();
+        if (Math.abs(velocity) > 0.15) {
+          applyMomentum(velocity);
+        } else {
+          finishScroll();
+        }
       });
 
-      // Resize
+      function applyMomentum(vel) {
+        const friction = 0.92;
+        const minVel = 0.3;
+        function step() {
+          vel *= friction;
+          if (Math.abs(vel) < minVel) {
+            momentumId = null;
+            finishScroll();
+            return;
+          }
+          offset += vel * 16;
+          track.style.transform = `translateX(${-offset}px)`;
+          momentumId = requestAnimationFrame(step);
+        }
+        momentumId = requestAnimationFrame(step);
+      }
+
+      function finishScroll() {
+        wrapOffset();
+        track.style.transform = `translateX(${-offset}px)`;
+        updateCurrentIndex();
+        if (!isHovering) resumeAutoScroll();
+      }
+
+      track.addEventListener('pointercancel', () => {
+        isDragging = false;
+        finishScroll();
+      });
+
+      track.addEventListener('click', (e) => {
+        if (dragDistance > DRAG_THRESHOLD) e.preventDefault();
+      });
+
       let resizeTimer;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -209,7 +243,15 @@
           const oldSpv = slidesPerView;
           slidesPerView = getSlidesPerView();
           if (slidesPerView !== oldSpv) {
-            snapToSlide();
+            const sw = getSlideWidth();
+            if (sw) {
+              const idx = Math.round(offset / sw);
+              const maxIdx = getMaxIndex();
+              currentIndex = Math.min(idx, maxIdx);
+              offset = currentIndex * sw;
+              track.style.transform = `translateX(${-offset}px)`;
+              updateDots();
+            }
             createDots();
           }
         }, 150);
