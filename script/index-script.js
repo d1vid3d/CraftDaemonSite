@@ -170,6 +170,7 @@
         velocity = 0;
         dragDistance = 0;
         dragStartOffset = offset;
+        track.classList.add('grabbing');
         pauseAutoScroll();
         track.setPointerCapture(e.pointerId);
         if (momentumId) {
@@ -196,6 +197,7 @@
       track.addEventListener('pointerup', () => {
         if (!isDragging) return;
         isDragging = false;
+        track.classList.remove('grabbing');
         if (Math.abs(velocity) > 0.15) {
           applyMomentum(velocity);
         } else {
@@ -229,6 +231,7 @@
 
       track.addEventListener('pointercancel', () => {
         isDragging = false;
+        track.classList.remove('grabbing');
         finishScroll();
       });
 

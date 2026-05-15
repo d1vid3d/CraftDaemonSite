@@ -580,6 +580,10 @@
     .carousel-track {
       display: flex;
       touch-action: none;
+      cursor: grab;
+    }
+    .carousel-track.grabbing {
+      cursor: grabbing;
     }
 
     .carousel-slide {
