@@ -152,7 +152,7 @@
       text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
     }
-    #release-badge-text { display: inline-block; min-width: 21ch; }
+    #release-badge-text { display: inline-block; min-width: 21ch; color: var(--green-bright); }
     .nav-release-badge:hover { background: rgba(38,130,69,0.18); border-color: rgba(38,130,69,0.6); }
     
     /* HAMBURGER MENU */

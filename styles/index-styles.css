@@ -156,7 +156,7 @@
       text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
     }
-    #release-badge-text { display: inline-block; min-width: 21ch; }
+    #release-badge-text { display: inline-block; min-width: 21ch; color: var(--green-bright);}
     .nav-release-badge:hover { background: rgba(38,130,69,0.18); border-color: rgba(38,130,69,0.6); }
     
     /* HAMBURGER MENU */
@@ -324,21 +324,34 @@
       position: relative;
       overflow: hidden;
     }
-    .hero::after {
-      content: '';
+    .hero-blob {
       position: absolute;
-      width: 700px; height: 700px;
-      left: 50%; top: 50%;
-      transform: translate(-60%, -55%);
-      background: radial-gradient(ellipse, rgba(38,130,69,0.12) 0%, transparent 70%);
+      top: 0;
+      left: 0;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse, rgba(38,130,69,0.14) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+      opacity: 0.75;
+      transition: opacity 0.5s ease, filter 0.4s ease;
+    }
+    .hero-blob.active {
+      opacity: 1;
+    }
+    .hero-blob.hover-active {
+      filter: brightness(1.8);
     }
     .hero-blob2 {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 600px; height: 500px;
-      right: -10%; bottom: 10%;
       background: radial-gradient(ellipse, rgba(88,101,242,0.1) 0%, transparent 70%);
       pointer-events: none;
+      will-change: transform;
+      z-index: 0;
     }
     .hero-grid {
       position: absolute;
@@ -349,6 +362,16 @@
       background-size: 48px 48px;
       mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
       pointer-events: none;
+    }
+    .hero-fade-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 160px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+      z-index: 2;
     }
 
     /* Hero logo */
@@ -1110,6 +1133,7 @@
         margin-inline: auto;
         padding-inline: 0.5rem;
       }
+      .hero-blob { width: 500px; height: 500px; }
       .hero-badges { flex-wrap: wrap; }
       .hero-actions { flex-wrap: wrap; gap: 0.75rem; }
       .btn-primary, .btn-secondary { font-size: 0.75rem; padding: 0.7rem 1.5rem; }
@@ -1124,6 +1148,7 @@
     }
 
     @media (max-width: 640px) {
+      .hero-blob { width: 400px; height: 400px; }
       .manifesto-grid { grid-template-columns: 1fr; }
       nav { padding: 0.5rem 0.75rem; }
       .nav-logo-img { height: 36px; }
